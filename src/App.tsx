@@ -14,27 +14,27 @@ function App() {
   const isWinner = wordToGuess
     .split("")
     .every((letter) => guessedLetters.includes(letter));
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      const key = e.key;
-      if (!key.match(/^[a-z]$/)) return;
-      e.preventDefault();
-      addGuessedLetter(key);
-    };
-    document.addEventListener("keypress", handler);
-
-    return () => {
-      document.removeEventListener("keypress", handler);
-    };
-  }, [guessedLetters]);
-  const addGuessedLetter = useCallback(
-    (letter: string) => {
-      if (guessedLetters.includes(letter) || isLoser || isWinner) return;
-
-      setGuessedLetters((currentLetters) => [...currentLetters, letter]);
-    },
-    [guessedLetters, isWinner, isLoser]
-  );
+    const addGuessedLetter = useCallback(
+      (letter: string) => {
+        if (guessedLetters.includes(letter) || isLoser || isWinner) return;
+        
+        setGuessedLetters((currentLetters) => [...currentLetters, letter]);
+      },
+      [guessedLetters, isWinner, isLoser]
+      );
+      useEffect(() => {
+        const handler = (e: KeyboardEvent) => {
+          const key = e.key;
+          if (!key.match(/^[a-z]$/)) return;
+          e.preventDefault();
+          addGuessedLetter(key);
+        };
+        document.addEventListener("keypress", handler);
+    
+        return () => {
+          document.removeEventListener("keypress", handler);
+        };
+      }, [addGuessedLetter]);
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       const key = e.key;
